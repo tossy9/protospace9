@@ -26,15 +26,16 @@ class PrototypesController < ApplicationController
   def show
     @comments = @prototype.comments.includes(:user)
     @comment  = @prototype.comments.build(user_id: current_user.id) if current_user
+    @commentnum = @prototype.comments.count
   end
 
   def edit
     unless @prototype.user_id == current_user.id
       redirect_to ({action: :show}), alert: "Your account can not edit"
     end
-    
+
     sub_total = 3
-    
+
     1.upto(sub_total) do |i|
       if @prototype.captured_images[i].nil?
         @prototype.captured_images.build
